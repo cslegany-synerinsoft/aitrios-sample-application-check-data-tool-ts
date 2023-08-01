@@ -1,0 +1,5 @@
+/lib/
+# Automatically generated file by the Flatbuffers schema. DO NOT APPLY AUTO FORMATTING.
+*Generated.ts
+# Automatically generated file by setting up Next.js application.
+next-env.d.ts
