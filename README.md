@@ -37,6 +37,7 @@ This repository provides sample code for a [Next.js](https://nextjs.org/) applic
 > **Note**
 > To make this app fully operational, start the backend app([aitrios-sample-application-check-data-tool-python
 ](https://github.com/SonySemiconductorSolutions/aitrios-sample-application-check-data-tool-python)) and specify the hosted address in the config file.
+If the environment is codespaces, the url on codespaces must be specified.  (e.g., `https\://user-name-container-name-xxxxxxxxx-5000.preview.app.github.dev`)
 > `src/config/backendConfig.ts`
 > ```
 > const baseURL = 'http://localhost:5000'    // Default address, when starting checkdata-python locally 
@@ -64,8 +65,8 @@ This app can operate using the Next.js backend API functionality without launchi
     > * Specify registered application secret for client_secret
     > * Specify registered application client ID for client_id
 
-    See the [Portal user manual](https://developer.aitrios.sony-semicon.com/file/download/portal-user-manual) for details.
-2. Specify the same address where this application is hosted in the config file.
+    Refer to the [Portal user manual](https://developer.aitrios.sony-semicon.com/documents/portal-user-manual) for details.
+2. Specify the same address where this application is hosted in the config file.If the environment is codespaces, the url on codespaces must be specified.  (e.g., `https://user-name-container-name-xxxxxxxxx-3000.preview.app.github.dev`)
     `src/config/backendConfig.ts`
      ```
      const baseURL = 'http://localhost:3000'    // Default address, when starting this app locally
@@ -206,3 +207,13 @@ None
 ### Security
 
 Before using Codespaces, please read the Site Policy of GitHub and understand the usage conditions.
+
+## Versioning
+
+This library aims to adhere to Semantic Versioning 2.0.0.
+
+## Branch
+
+See the Release Note from Releases for this repository.
+
+Each release is generated in the main branch. Pre-releases are generated in the develop branch. Releases will not be provided by other branches.
