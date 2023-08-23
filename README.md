@@ -92,7 +92,7 @@ This app can operate using the Next.js backend API functionality without launchi
 | `React` | `18.2.0` | Front-end JavaScript library for building user interfaces based on components. |
 | `MUI` | `^5.11.9` |  Library of UI design components that developers can easily import to build React applications. |
 | `Flatbuffers` | `1.11.0` | Cross platform serialization library for various languages. |
-| [`ConsoleAccessLibrary`](https://github.com/SonySemiconductorSolutions/aitrios-sdk-console-access-lib-ts) | `0.2.0` | SDK Library that provides API requests to the AITRIOS Console. |
+| [`ConsoleAccessLibrary`](https://github.com/SonySemiconductorSolutions/aitrios-sdk-console-access-lib-ts) | `1.0.0` | SDK Library that provides API requests to the AITRIOS Console. |
 
 ### Functional overview
 
