@@ -16,8 +16,32 @@
 
 import { Client, Config } from 'consoleaccesslibrary'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { utcToZonedTime } from 'date-fns-tz'
+import { format } from 'date-fns'
+
 import { getConsoleSettings } from '@/config/config'
 import deserializeObjectDetection from '@/utils/ObjectDetection/deserialize'
+
+/**
+ * Convert a timestamp to a Date object.
+ *
+ * @param timestamp Timestamp expressed in the format yyyyMMddHHmmm. e.g., 20240401123012345
+ *
+ * @returns converted Date object.
+ *
+ */
+const convertTimestampToDate = (timestamp: string) => {
+  const convertedDate = new Date(
+    Number(timestamp.slice(0, 4)),
+    Number(timestamp.slice(4, 6)) - 1,
+    Number(timestamp.slice(6, 8)),
+    Number(timestamp.slice(8, 10)),
+    Number(timestamp.slice(10, 12)),
+    Number(timestamp.slice(12, 14)),
+    Number(timestamp.slice(14, 17)),
+  )
+  return convertedDate
+}
 
 /**
  * Use Console to get sub directories of deviceId.
@@ -44,9 +68,36 @@ const getImageAndInference = async (deviceId: string, outputSubDir: string, numb
     throw new Error('Wrong setting. Check the settings.')
   }
 
+  let startTime
+  let endTime
+  try {
+    const startDate = convertTimestampToDate(outputSubDir)
+    startTime = format(startDate.getTime(), 'yyyyMMddHHmm')
+
+    // Retrieve images for 10 hours from the specified time.
+    // If 10 hours later exceeds the current time, use the current time.
+    const tenHoursLaterStartDate = new Date(startDate.getTime() + 10 * 60 * 60 * 1000)
+    const tenHoursLaterTimestamp = format(tenHoursLaterStartDate, 'yyyyMMddHHmm')
+    const currentDate = utcToZonedTime(new Date(), 'UTC')
+    const currentTimestamp = format(currentDate.getTime(), 'yyyyMMddHHmm')
+    endTime = tenHoursLaterTimestamp < currentTimestamp ? tenHoursLaterTimestamp : currentTimestamp
+  } catch (err) {
+    throw new Error(
+      'Cannot parse image directory name. Check that the directory name is correct date format.',
+    )
+  }
+
   const skip = 0
   const orderBy = 'DESC'
-  const imageData = await client.insight?.getImages(deviceId, outputSubDir, numberOfImages, skip, orderBy)
+  const imageData = await client.insight?.getImages(
+    deviceId,
+    outputSubDir,
+    numberOfImages,
+    skip,
+    orderBy,
+    startTime,
+    endTime,
+  )
 
   const outputList: Array<{
     image: string
